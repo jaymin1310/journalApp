@@ -4,6 +4,8 @@ import com.jaymin.journalApp.services.UserEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,25 +15,24 @@ import java.util.List;
 public class UserEntryController {
     @Autowired
     private UserEntryService userService;
-    @GetMapping
-    public List<User> getAllUser(){
-        return userService.getAll();
-    }
-    @PostMapping
-    public void createUser(@RequestBody User user){
-        userService.saveEntry(user);
-    }
-    @PutMapping("/{userName}")
-    public ResponseEntity<?> updateUser(@RequestBody User user,@PathVariable String userName) {
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userName=authentication.getName();
         User userInDb = userService.findByUser(userName);
-        if (userInDb != null) {
-            userInDb.setUserName(user.getUserName());
-            userInDb.setPassword(user.getPassword());
-            userService.saveEntry(userInDb);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        userInDb.setUserName(user.getUserName());
+        userInDb.setPassword(user.getPassword());
+        userService.saveNewUser(userInDb);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser() {
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userName=authentication.getName();
+        User userInDb = userService.findByUser(userName);
+        userService.deleteEntry(userInDb.getUserName());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
