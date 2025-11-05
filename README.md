@@ -1,1 +1,2 @@
-This is basically journalApp using spring boot.untill this in the sense my first commit i completed basic CRUD operations on journal Entries and User but both are public means end points are not secure i just add one class of springSecurity but not used yet
+I add Authentication for user means all end points are secure now and also changes and secure three end points(GET,POST,PUT) of journal entries of particular user
+still some end points remainning
