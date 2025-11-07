@@ -41,9 +41,16 @@ public class JournalEntryControllerV2 {
     }
     @GetMapping("id/{myId}")
     public ResponseEntity<JournalEntry> entryById(@PathVariable ObjectId myId) {
-        Optional<JournalEntry>myEnt=journalEntryService.entryById(myId);
-        if(myEnt.isPresent()){
-            return new ResponseEntity<>(myEnt.get(),HttpStatus.OK);
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userName=authentication.getName();
+        User user=userService.findByUser(userName);
+        JournalEntry myEnt = user.getJournalEntries()
+                .stream()
+                .filter(x -> x.getId().equals(myId))
+                .findFirst()
+                .orElse(null);
+        if(myEnt!=null) {
+            return new ResponseEntity<>(myEnt, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -60,13 +67,14 @@ public class JournalEntryControllerV2 {
             return new  ResponseEntity<>(myEntry, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("id/{userName}/{myId}")
-    public ResponseEntity<Void> deleteEntryById(@PathVariable ObjectId myId,@PathVariable String userName){
-        Optional<JournalEntry>myEnt=journalEntryService.entryById(myId);
-        if(myEnt.isPresent()) {
-            journalEntryService.deleteEntry(myId,userName);
+    @DeleteMapping("id/{myId}")
+    public ResponseEntity<Void> deleteEntryById(@PathVariable ObjectId myId){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userName=authentication.getName();
+        User user=userService.findByUser(userName);
+        boolean is_delete=journalEntryService.deleteEntry(myId,userName);
+        if(is_delete)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @PutMapping("id/{myId}")
@@ -87,7 +95,5 @@ public class JournalEntryControllerV2 {
         }
         return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
 }
 

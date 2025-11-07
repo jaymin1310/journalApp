@@ -38,10 +38,20 @@ public class JournalEntryService {
     public Optional<JournalEntry> entryById(ObjectId id) {
         return journalRepo.findById(id);
     }
-    public void deleteEntry(ObjectId id,String userName){
-        User user=userService.findByUser(userName);
-        user.getJournalEntries().removeIf(x->x.getId().equals(id));
-        userService.saveEntry(user);
-        journalRepo.deleteById(id);
+    @Transactional
+    public boolean deleteEntry(ObjectId id,String userName){
+        try{
+            User user=userService.findByUser(userName);
+            boolean removed= user.getJournalEntries().removeIf(x->x.getId().equals(id));
+            if(removed) {
+                userService.saveEntry(user);
+                journalRepo.deleteById(id);
+                return true;
+            }
+            return false;
+        }catch(Exception e){
+            System.out.println(e);
+            throw new RuntimeException("Error Occuring while Saving");
+        }
     }
 }
