@@ -1,2 +1,1 @@
-I add Authentication for user means all end points are secure now and also changes and secure three end points(GET,POST,PUT) of journal entries of particular user
-still some end points remainning
+I completed all work of authentication means all end points are secure now also add functinality of access and modification base on role of user means admin or user.and for admin add one more end point which is use for delete use,see all user and add new user as an admin
