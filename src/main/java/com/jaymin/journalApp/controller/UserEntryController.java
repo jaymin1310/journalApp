@@ -23,7 +23,7 @@ public class UserEntryController {
         User userInDb = userService.findByUser(userName);
         userInDb.setUserName(user.getUserName());
         userInDb.setPassword(user.getPassword());
-        userService.saveNewUser(userInDb);
+        userService.saveExistingUser(userInDb);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @DeleteMapping

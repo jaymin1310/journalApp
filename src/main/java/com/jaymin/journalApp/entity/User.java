@@ -1,5 +1,6 @@
 package com.jaymin.journalApp.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
@@ -10,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Document(collection="user")
 @Data
+@Builder
 public class User {
     @Id
     private ObjectId id;
@@ -23,5 +24,6 @@ public class User {
     private String password;
     @DBRef
     private List<JournalEntry> journalEntries=new ArrayList<>();
+    @Builder.Default
     private List<String>role=new ArrayList<>();
 }

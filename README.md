@@ -1,1 +1,1 @@
-I completed all work of authentication means all end points are secure now also add functinality of access and modification base on role of user means admin or user.and for admin add one more end point which is use for delete use,see all user and add new user as an admin
+this is backend project using spring boot.this is about journal entries of users it consists all springboot concepts like control service repo and all other class.i make this project using mongo db database 

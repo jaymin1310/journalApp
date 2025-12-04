@@ -24,9 +24,19 @@ public class UserEntryService {
     public void saveEntry(User userEntry){
         userRepo.save(userEntry);
     }
-    public void saveNewUser(User userEntry){
+    public boolean saveNewUser(User userEntry) {
+        try{
+            userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
+            userEntry.getRole().add("USER");
+            userRepo.save(userEntry);
+            return true;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    public void saveExistingUser(User userEntry) {
         userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
-        userEntry.getRole().add("USER");
         userRepo.save(userEntry);
     }
     public void saveNewAdmin(User userEntry){

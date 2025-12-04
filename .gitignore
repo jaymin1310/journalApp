@@ -40,8 +40,8 @@ build/
 Thumbs.db
 
 ### Sensitive Files ###
-application.properties
-application.yml
+application-dev.yml
+application-prod.yml
 .env
 
 ### Maven Wrapper ###

@@ -21,7 +21,6 @@ public class UserDetailServiceImpl implements UserDetailsService{
                     .password(user.getPassword())
                     .roles(user.getRole().toArray(new String[0]))
                     .build();
-
         }
         throw new UsernameNotFoundException("User not found with Username: "+username);
     }

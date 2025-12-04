@@ -89,7 +89,7 @@ public class JournalEntryControllerV2 {
                 .orElse(null);
         if(myEnt!=null) {
             myEnt.setContent((newEntry.getContent()!=null && !newEntry.getContent().isEmpty())?newEntry.getContent():myEnt.getContent());
-            myEnt.setTitle((newEntry.getTitle()!=null && !newEntry.getTitle().isEmpty())?newEntry.getTitle():myEnt.getTitle());
+            myEnt.setTitle(!newEntry.getTitle().isEmpty() ?newEntry.getTitle():myEnt.getTitle());
             journalEntryService.saveEntry(myEnt);
             return new  ResponseEntity<>(myEnt, HttpStatus.OK);
         }
