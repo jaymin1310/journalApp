@@ -4,6 +4,9 @@ import com.jaymin.journalApp.entity.JournalEntry;
 import com.jaymin.journalApp.entity.User;
 import com.jaymin.journalApp.journalRepo.JournalRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +28,7 @@ public class JournalEntryService {
             user.getJournalEntries().add(saved);
             userService.saveEntry(user);
         }catch(Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
             throw new RuntimeException("Error Occuring while Saving");
         }
     }
