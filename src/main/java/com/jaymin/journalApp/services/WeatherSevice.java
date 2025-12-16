@@ -2,14 +2,17 @@ package com.jaymin.journalApp.services;
 
 import com.jaymin.journalApp.apiResponse.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Service
 public class WeatherSevice {
-    private static final String key="049396ba38718c2c3c030c4c95488391";
+    @Value("${weather.api.key}")
+    private String key;
     private static final String api="http://api.weatherstack.com/current?access_key=KEY&query=CITY";
 
     @Autowired
