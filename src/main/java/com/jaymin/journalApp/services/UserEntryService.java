@@ -30,17 +30,13 @@ public class UserEntryService {
     }
     public boolean saveNewUser(User userEntry) {
         try{
+            if(userRepo.findByUserName(userEntry.getUserName())!=null)throw new Exception("Username already exists");
             userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
             userEntry.getRole().add("USER");
             userRepo.save(userEntry);
-            throw new Exception("edd");
-           // return true;
+            return true;
         }catch(Exception e){
-            log.warn("error bro");
-            log.error("error bro for {}",userEntry.getUserName(),e);
-            log.info("error bro");
-            log.debug("error bro");
-            log.trace("error bro");
+            log.error("error for {}",userEntry.getUserName(),e);
             return false;
         }
     }

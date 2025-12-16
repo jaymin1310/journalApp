@@ -1,8 +1,6 @@
 package com.jaymin.journalApp.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,16 +12,22 @@ import java.util.List;
 @Document(collection="user")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
+
     @Id
     private ObjectId id;
-    @Indexed(unique=true)
-    @NonNull
+
+    @Indexed(unique = true)
     private String userName;
-    @NonNull
+
     private String password;
-    @DBRef
-    private List<JournalEntry> journalEntries=new ArrayList<>();
+
     @Builder.Default
-    private List<String>role=new ArrayList<>();
+    @DBRef
+    private List<JournalEntry> journalEntries = new ArrayList<>();
+
+    @Builder.Default
+    private List<String> role = new ArrayList<>();
 }
