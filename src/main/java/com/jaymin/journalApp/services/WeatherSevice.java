@@ -1,6 +1,8 @@
 package com.jaymin.journalApp.services;
 
 import com.jaymin.journalApp.apiResponse.WeatherResponse;
+import com.jaymin.journalApp.cache.AppCache;
+import com.jaymin.journalApp.constant.PlaceHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -13,13 +15,13 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherSevice {
     @Value("${weather.api.key}")
     private String key;
-    private static final String api="http://api.weatherstack.com/current?access_key=KEY&query=CITY";
-
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    AppCache Cache;
 
     public WeatherResponse GetWeather(String city){
-        String url=api.replace("KEY",key).replace("CITY",city);
+        String url=Cache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(PlaceHolder.API_KEY,key).replace(PlaceHolder.CITY,city);
         //CONVERTING JAVA TO POJO->DESERIALIZATION
         ResponseEntity<WeatherResponse> response=restTemplate.exchange(url, HttpMethod.GET,null, WeatherResponse.class);
         return response.getBody();
@@ -33,5 +35,4 @@ public class WeatherSevice {
         ..you can send header also
          */
     }
-
 }

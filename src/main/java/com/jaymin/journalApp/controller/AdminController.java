@@ -1,5 +1,6 @@
 package com.jaymin.journalApp.controller;
 
+import com.jaymin.journalApp.cache.AppCache;
 import com.jaymin.journalApp.entity.User;
 import com.jaymin.journalApp.services.UserEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import static org.apache.logging.log4j.util.LambdaUtil.getAll;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+    @Autowired
+    AppCache appCache;
     @Autowired
     private UserEntryService userEntryService;
 
@@ -36,5 +39,9 @@ public class AdminController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("clear-cache")
+    public void clearCache(){
+        appCache.init();
     }
 }

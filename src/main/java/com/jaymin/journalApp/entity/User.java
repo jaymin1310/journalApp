@@ -21,7 +21,8 @@ public class User {
 
     @Indexed(unique = true)
     private String userName;
-
+    private String email;
+    private boolean sentimentAnaly;
     private String password;
 
     @Builder.Default
