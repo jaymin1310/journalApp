@@ -57,6 +57,11 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<!-- Version is managed by Spring Boot parent pom -->
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<!-- Version is managed by Spring Boot parent pom -->
+		</dependency>
 
 	</dependencies>
 

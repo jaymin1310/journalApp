@@ -3,7 +3,9 @@ package com.jaymin.journalApp.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.jaymin.journalApp.enums.Sentiment;
 import com.jaymin.journalApp.journalRepo.JournalRepository;
+import com.jaymin.journalApp.services.SentimentAnalysisService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -25,4 +27,5 @@ public class JournalEntry{
     private String title;
     private String content;
     private LocalDateTime date;
+    private Sentiment sentimentAnalysis;
 }

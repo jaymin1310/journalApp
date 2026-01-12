@@ -1,5 +1,6 @@
 package com.jaymin.journalApp.entity;
 
+import com.jaymin.journalApp.enums.Sentiment;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -28,7 +29,6 @@ public class User {
     @Builder.Default
     @DBRef
     private List<JournalEntry> journalEntries = new ArrayList<>();
-
     @Builder.Default
     private List<String> role = new ArrayList<>();
 }

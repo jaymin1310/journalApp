@@ -19,12 +19,24 @@ public class WeatherSevice {
     RestTemplate restTemplate;
     @Autowired
     AppCache Cache;
+    @Autowired
+    RedisService redisService;
 
     public WeatherResponse GetWeather(String city){
-        String url=Cache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(PlaceHolder.API_KEY,key).replace(PlaceHolder.CITY,city);
-        //CONVERTING JAVA TO POJO->DESERIALIZATION
-        ResponseEntity<WeatherResponse> response=restTemplate.exchange(url, HttpMethod.GET,null, WeatherResponse.class);
-        return response.getBody();
+        WeatherResponse weatherResponse=redisService.get("weather_of_"+city,WeatherResponse.class);
+        if(weatherResponse!=null){
+            return weatherResponse;
+        }
+        else{
+            String url=Cache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(PlaceHolder.API_KEY,key).replace(PlaceHolder.CITY,city);
+            // CONVERTING JSON TO POJO (DESERIALIZATION)
+            ResponseEntity<WeatherResponse> response=restTemplate.exchange(url, HttpMethod.GET,null, WeatherResponse.class);
+            WeatherResponse body=response.getBody();
+            if(body!=null){
+                redisService.set("weather_of_"+city,body,300l);
+            }
+            return body;
+        }
         /*POST method including headers
         if you want to send post method only then send only single peram in HttpEntity
         HttpHeaders httpHeaders=new HttpHeader();
